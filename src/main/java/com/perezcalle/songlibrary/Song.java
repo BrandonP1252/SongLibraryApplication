@@ -1,4 +1,4 @@
-package application;
+package com.perezcalle.songlibrary;
 
 public class Song implements Comparable<Song>{
 	private String title;

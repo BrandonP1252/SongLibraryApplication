@@ -1,4 +1,4 @@
-package app;
+package com.perezcalle.songlibrary;
 
 import javafx.fxml.FXML;
 
@@ -43,7 +43,7 @@ public class MainSceneController {
 	
 	public <T> void start(Stage primaryStage)
 	{
-		File data = new File("src/data/songs.txt");
+		File data = new File("songlist.txt");
 		obsList = FXCollections.observableArrayList();
 		if(data.exists() && !data.isDirectory())
 		{
