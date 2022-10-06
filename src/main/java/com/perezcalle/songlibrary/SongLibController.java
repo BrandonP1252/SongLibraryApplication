@@ -44,7 +44,7 @@ public class SongLibController {
 
         }
 
-        public void setSongLib(Songlib, songlib)
+        public void setSongLib(Songlib songlib)
         {
             this.songlib = songlib;
 
@@ -87,7 +87,7 @@ public class SongLibController {
                     songlib.showErrorDialog();
                 }
             }
- @FXML
+            @FXML
             private void changeSong()
             {
                 Song newSong = new Song();
@@ -109,7 +109,7 @@ public class SongLibController {
                                 nextindex = i;
                                 break;
                             }
-                            i++
+                            i++;
                         }
                         myComparator comparator = new myComparator();
                         Collections.sort(songlib.getSongList(), comparator);
@@ -125,7 +125,7 @@ public class SongLibController {
 
 
             @FXML
-            private void songedit()
+            private void songEdit()
             {
                 Song selectedSong = songList.getSelectionModel().getSelectedItem();
                 if (selectedSong != null)
