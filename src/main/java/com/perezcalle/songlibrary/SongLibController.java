@@ -1,154 +1,321 @@
-package com.perezcalle.songlibrary;
+package app;
 
-//Still looking over
-import java.util.Collections;
-import java.util.Comparator;
+import javafx.fxml.FXML;
+
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Optional;
+import java.util.Scanner;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import songlib.SongLib;
-import songlib.model.Song;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 
-public class SongLibController {
-    @FXML
-    private TableView<Song> songList;
-    @FXML
-    private TableColumn<Song, String> TofColumn;
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private Label artist;
-    @FXML
-    private Label albulm;
-    @FXML
-    private Label year;
+public class MainSceneController {
+	@FXML
+	private ListView songList;
+	@FXML
+	private TextField TitleAdd;
+	@FXML
+	private TextField ArtistAdd;
+	@FXML
+	private TextField yearAdd;
+	@FXML
+	private TextField AlbulmAdd;
+	@FXML
+	private TextField titleEdit;
+	@FXML
+	private TextField artistEdit;
+	@FXML
+	private TextField AlbulmEdit;
+	@FXML
+	private TextField yearEdit;
+	
+	private ObservableList<Song> obsList;
+	
+	public <T> void start(Stage primaryStage)
+	{
+		File data = new File("src/data/songs.txt");
+		obsList = FXCollections.observableArrayList();
+		if(data.exists() && !data.isDirectory())
+		{
+			try {
+				Scanner fileIn = new Scanner(data);
+				
+				int lines = 0;
+				while (fileIn.hasNextLine())
+				{
+					lines++;
+					fileIn.nextLine();
+				}
+				fileIn.close();
+				fileIn = new Scanner(data);
+				lines -= 2;
+				fileIn.nextLine();
+				fileIn.nextLine();
+				if(lines%4 == 0)
+				{
+					for(int i=0; i<lines; i+=4)
+					{
+						obsList.add(new Song(fileIn.nextLine(), fileIn.nextLine(), fileIn.nextLine(), fileIn.nextLine()));
+						
+					}
+					
+					FXCollections.sort(obsList);
+				}
+				else
+				{
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("WARNING");
+					alert.setHeaderText("File Error");
+					alert.setContentText("Formatting of file is not modulus 4");
+					alert.showAndWait();
+				}
+				
+				fileIn.close();
+			}
+			catch (FileNotFoundException e)
+			{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("WARNING");
+				alert.setHeaderText("File Error");
+				alert.setContentText("File does not exist");
+				alert.showAndWait();
+				e.printStackTrace();
+			}
+		}
+		songList.setItems(obsList);
+		if(!obsList.isEmpty())
+		{
+			songList.getSelectionModel().selectFirst();
+			
+		}
+		
+		showSongDetails();
+		
+		songList.getSelectionModel().selectedItemProperty().addListener(
+				(obs, oldValue, newValue) -> showSongDetails());
+		
+		primaryStage.setOnCloseRequest(event -> {
+			PrintWriter write;
+			try {
+				File file = new File("src/data/songs.txt");
+				file.createNewFile();
+				write = new PrintWriter(file);
+				write.println("Messing with song file format will result");
+				write.println("IN LOSING ALL YOUR SONGS");
+				for (int i=0; i < obsList.size(); i++)
+						{
+					write.println(obsList.get(i).getTitle());
+					write.println(obsList.get(i).getArtist());
+					write.println(obsList.get(i).getAlbulm());
+					write.println(obsList.get(i).getYear());
+					if (i != obsList.size()-1)
+					{
+						write.println("");
+					}
+				}
+				write.close();
+				
+			} catch (Exception e) {
+				
+			e.printStackTrace();
+			}
+		});
+	
+		TitleAdd.setText("");
+		ArtistAdd.setText("");
+		AlbulmAdd.setText("");
+		yearAdd.setText("");
+	}
 
-    private SongLib songlib;
+
+	// Event Listener on Button.onAction
+	@FXML
+	private void deleteSong(ActionEvent event) {
+		if (obsList.isEmpty())
+		{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Nothing to delete");
+			alert.setContentText("Song list is empty");
+			alert.showAndWait();
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("You are about to delete the selected song");
+			alert.setContentText("Are you sure?");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == ButtonType.OK)
+			{
+				int selectedIndex = songList.getSelectionModel().getSelectedIndex();
+				obsList.remove(selectedIndex);
+				
+				if (obsList.isEmpty())
+				{
+					titleEdit.setText("");
+					artistEdit.setText("");
+					AlbulmEdit.setText("");
+					yearEdit.setText("");
+				}
+				else if (selectedIndex == obsList.size()-1)
+				{
+					songList.getSelectionModel().select(selectedIndex--);
+				}
+				else
+				{
+					songList.getSelectionModel().select(selectedIndex++);
+			
+				}
+			}
+			else
+			{
+				return;
+			}
+				}
+			}
+		// TODO Autogenerated
+	// Event Listener on Button.onAction
+	@FXML
+	private void songAdd(ActionEvent event) {
+		if (AlbulmAdd.getText().compareTo("")==0)
+		{
+			AlbulmAdd.setText("");
+		}
+		if (yearAdd.getText().compareTo("")==0)
+		{
+			yearAdd.setText("");
+		}
+		Song tempSong = new Song(TitleAdd.getText(), ArtistAdd.getText(), AlbulmAdd.getText(), yearAdd.getText());
+		
+		add(tempSong);
+		// TODO Autogenerated
+	}
+	
+	private int add (Song tempSong) {
+		int index = findIndex(obsList, tempSong);
+		String artist, title;
+		artist = tempSong.getArtist();
+		title = tempSong.getTitle();
+		
+		if(artist.compareTo("")== 0 || title.compareTo("") == 0) 
+		{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Missing input");
+			alert.setContentText("Title and Artist input must not be empty");
+			alert.showAndWait();
+			return -1;
+		}
+		else if (index == -1)
+		{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Same title/artist combination already exists in file");
+			alert.showAndWait();
+			return -1;
+			
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Adding a new song");
+			alert.setContentText("You are about to add a new song: \n" + title + " by: " + artist + "\nAre you sure?");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK)
+			{
+				obsList.add(index, tempSong);
+				TitleAdd.setText("");
+				ArtistAdd.setText("");
+				AlbulmAdd.setText("");
+				yearAdd.setText("");
+				return 0;
+			}
+			else
+			{
+				showSongDetails();
+			}
+			
+				
+			}
+		return 0;
+		}
+		
+	private int findIndex(ObservableList<Song> obsList2, Song tempSong) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
-
-    public SongController() {
-    }
-
-        @FXML
-        public void putTogether()
-        {
-            TofColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
-            showSongList(null);
-
-            songList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showSongList(newValue));
-
-        }
-
-        public void setSongLib(Songlib songlib)
-        {
-            this.songlib = songlib;
-
-            songList.setItems(songlib.getSongList());
-
-            songList.getSelectionModel().select(0);
-            
-            showSongList(songList.getSelectionModel().getSelectedItem());
-        }
-        private void showSongList (Song song)
-        {
-            if(song != null)
-            {
-                nameLabel.setText(song.getName());
-                artist.setText(song.getArtist());
-                albulm.setText(song.getAlbulm());
-                year.setText(Integer.toString(song.getYear()));
-            }
-            else 
-            {
-                nameLabel.setText("");
-                artist.setText("");
-                year.setText("");
-                albulm.setText("");
-
-            }
-            }
-
-            @FXML
-            private void deleteSong()
-            {
-                int currentInd = songList.getSelectionModel().getSelectedIndex();
-                if(currentInd >= 0)
-                {
-                    songList.getItems().remove(currentInd);
-                    songList.getSelectionModel().select(selectedIndex);
-                }
-                else 
-                {
-                    songlib.showErrorDialog();
-                }
-            }
-            @FXML
-            private void changeSong()
-            {
-                Song newSong = new Song();
-                boolean[] ind = new boolean[2];
-                ind = songlib.showEditDialog(newSong);
-                boolean accepted = ind[0];
-                boolean deny = ind[1];
-                int nextindex = 0;
-                if (!deny)
-                {
-                    if(accepted)
-                    {
-                        songlib.getSongList().add(newSong);
-                        int i=0;
-                        while (i < songlib.getSongList().size())
-                        {
-                            if(newSong == songlib.getSongList().get(i))
-                            {
-                                nextindex = i;
-                                break;
-                            }
-                            i++;
-                        }
-                        myComparator comparator = new myComparator();
-                        Collections.sort(songlib.getSongList(), comparator);
-                        songList.getSelectionModel().select(ind);
-
-                    }
-                    else
-                    {
-                        songlib.showRepeatDialog();
-                    }
-                }
-            }
-
-
-            @FXML
-            private void songEdit()
-            {
-                Song selectedSong = songList.getSelectionModel().getSelectedItem();
-                if (selectedSong != null)
-                {
-                    boolean[] ind = new boolean[2];
-                    ind = songlib.showEditDialog(selectedSong);
-                    boolean accepted = ind[0];
-                    boolean deny = ind[1];
-
-                    if(!deny)
-                    {
-                     if(accepted)
-                     {
-                        showSongList(selectedSong);
-                        myComparator comparator = new myComparator();
-                        Collections.sort(songlib.getSongList(), comparator);
-                     }   
-                     else
-                     {
-                        songlib.showRepeatDialog();
-                     }
-                    }
-                }
-            }
-
-        }
+	// Event Listener on Button.onAction
+	@FXML
+	private void songEdit(ActionEvent event) {
+		
+		Song selectedSong = (Song) songList.getSelectionModel().getSelectedItem();
+		Song tempSong = new Song(titleEdit.getText(), artistEdit.getText(), AlbulmEdit.getText(), yearEdit.getText());
+		
+		if(selectedSong.getTitle().compareTo(tempSong.getTitle()) == 0 && selectedSong.getArtist().compareTo(tempSong.getArtist()) == 0)
+{
+	((Song) songList.getSelectionModel().getSelectedItem()).setAlbulm(tempSong.getAlbulm());
+	((Song) songList.getSelectionModel().getSelectedItem()).setYear(tempSong.getYear());
+}
+		else
+		{
+			obsList.remove(songList.getSelectionModel().getSelectedIndex());
+			if(add(tempSong)== -1)
+			{
+				add(selectedSong);
+			}
+		// TODO Autogenerated
+	}
+}
+	private void showSongDetails() {
+		if(songList.getSelectionModel().getSelectedIndex() < 0)
+		{
+			return;
+		}
+		
+		Song song = (Song) songList.getSelectionModel().getSelectedItem();
+		titleEdit.setText(song.getTitle());
+		artistEdit.setText(song.getArtist());
+		AlbulmEdit.setText(song.getAlbulm());
+		yearEdit.setText(song.getYear());
+	}
+	
+	public static int FindIndex(ObservableList<Song> list, Song s)
+	{
+		int i;
+		for(i = 0; i < list.size(); i++)
+		{
+			if(list.get(i).compartTo(s)==0)
+			{
+				return -1;
+			}
+			else if(list.get(i).compareTo(s)>0)
+			{
+				return i;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		return i;
+		
+	// TODO Auto-generated method stub
+	
+}
+	}
