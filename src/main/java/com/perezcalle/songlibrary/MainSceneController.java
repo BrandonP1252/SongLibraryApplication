@@ -300,7 +300,7 @@ public class MainSceneController {
 		int i;
 		for(i = 0; i < list.size(); i++)
 		{
-			if(list.get(i).compartTo(s)==0)
+			if(list.get(i).compareTo(s)==0)
 			{
 				return -1;
 			}
