@@ -51,7 +51,7 @@ public class Song implements Comparable<Song>{
 	}
 	
 	public String toString() {
-		return this.title;
+		return this.title +" - "+this.artist;
 	}
 	@Override
 	public int compareTo(Song s) {
