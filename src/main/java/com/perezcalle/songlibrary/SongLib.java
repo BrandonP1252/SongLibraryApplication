@@ -2,7 +2,6 @@ package com.perezcalle.songlibrary;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import application.MainSceneController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
@@ -13,12 +12,12 @@ public class SongLib extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/application/MainScene.fxml"));
-			AnchorPane rootLayout = (AnchorPane) loader.load(); 
+			loader.setLocation(getClass().getResource("MainScene.fxml"));
+			AnchorPane rootLayout = loader.load();
 			MainSceneController controller = loader.getController();
 			controller.start(primaryStage);
-			Scene scene = new Scene(rootLayout, 600, 800);
-			
+			Scene scene = new Scene(rootLayout, 936, 674);
+
 			primaryStage.setTitle("Song library");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);

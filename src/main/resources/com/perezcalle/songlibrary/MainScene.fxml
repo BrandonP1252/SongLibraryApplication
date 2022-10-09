@@ -6,8 +6,9 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="936.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.perezcalle.songlibrary.MainSceneController">
    <children>
       <SplitPane layoutX="8.0" layoutY="4.0" prefHeight="667.0" prefWidth="206.0">
          <items>
@@ -22,22 +23,34 @@
       </SplitPane>
       <AnchorPane layoutX="214.0" layoutY="4.0" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <Label alignment="CENTER" layoutX="238.0" layoutY="62.0" prefHeight="17.0" prefWidth="106.0" text="Input" />
-            <TextField fx:id="TitleAdd" layoutX="220.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="ArtistAdd" layoutX="220.0" layoutY="223.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="yearAdd" layoutX="220.0" layoutY="360.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="albumAdd" layoutX="220.0" layoutY="288.0" prefHeight="25.0" prefWidth="143.0" />
-            <Button layoutX="233.0" layoutY="448.0" mnemonicParsing="false" onAction="#songAdd" prefHeight="45.0" prefWidth="116.0" text="ADD" />
-            <Label alignment="CENTER" layoutX="88.0" layoutY="62.0" prefHeight="17.0" prefWidth="106.0" text="Song" />
-            <Label alignment="CENTER" layoutY="151.0" prefHeight="17.0" prefWidth="106.0" text="Title" />
-            <Label alignment="CENTER" layoutY="218.0" prefHeight="17.0" prefWidth="106.0" text="Artist" />
-            <Label alignment="CENTER" layoutY="292.0" prefHeight="17.0" prefWidth="106.0" text="album" />
-            <Label alignment="CENTER" layoutY="364.0" prefHeight="17.0" prefWidth="106.0" text="Year" />
-            <Button layoutX="88.0" layoutY="448.0" mnemonicParsing="false" onAction="#songEdit" prefHeight="45.0" prefWidth="116.0" text="Edit" />
-            <TextField fx:id="titleEdit" layoutX="75.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="artistEdit" layoutX="75.0" layoutY="223.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="albumEdit" layoutX="75.0" layoutY="288.0" prefHeight="25.0" prefWidth="143.0" />
-            <TextField fx:id="yearEdit" layoutX="75.0" layoutY="360.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="TitleAdd" layoutX="50.0" layoutY="380.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="ArtistAdd" layoutX="205.0" layoutY="380.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="yearAdd" layoutX="509.0" layoutY="380.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="albumAdd" layoutX="356.0" layoutY="380.0" prefHeight="25.0" prefWidth="143.0" />
+            <Button layoutX="298.0" layoutY="433.0" mnemonicParsing="false" onAction="#songAdd" prefHeight="45.0" prefWidth="116.0" text="Add Song" />
+            <Label alignment="CENTER" layoutX="68.0" layoutY="107.0" prefHeight="17.0" prefWidth="106.0" text="Title" />
+            <Label alignment="CENTER" layoutX="223.0" layoutY="107.0" prefHeight="17.0" prefWidth="106.0" text="Artist" />
+            <Label alignment="CENTER" layoutX="375.0" layoutY="107.0" prefHeight="17.0" prefWidth="106.0" text="Album" />
+            <Label alignment="CENTER" layoutX="535.0" layoutY="107.0" prefHeight="17.0" prefWidth="106.0" text="Year" />
+            <Button layoutX="298.0" layoutY="199.0" mnemonicParsing="false" onAction="#songEdit" prefHeight="45.0" prefWidth="116.0" text="Save Edit" />
+            <TextField fx:id="titleEdit" layoutX="50.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="artistEdit" layoutX="205.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="albumEdit" layoutX="360.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
+            <TextField fx:id="yearEdit" layoutX="516.0" layoutY="147.0" prefHeight="25.0" prefWidth="143.0" />
+            <Label layoutX="319.0" layoutY="70.0" text="Edit Song">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="317.0" layoutY="312.0" prefHeight="20.0" prefWidth="63.0" text="Add Song">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="68.0" layoutY="346.0" prefHeight="17.0" prefWidth="106.0" text="Title" />
+            <Label alignment="CENTER" layoutX="223.0" layoutY="346.0" prefHeight="17.0" prefWidth="106.0" text="Artist" />
+            <Label alignment="CENTER" layoutX="375.0" layoutY="346.0" prefHeight="17.0" prefWidth="106.0" text="Album" />
+            <Label alignment="CENTER" layoutX="527.0" layoutY="346.0" prefHeight="17.0" prefWidth="106.0" text="Year" />
          </children>
       </AnchorPane>
    </children>
