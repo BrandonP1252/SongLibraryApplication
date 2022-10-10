@@ -6,7 +6,6 @@ public class Song implements Comparable<Song>{
 	private String album;
 	private String year;
 	
-	
 
 	public Song(String t, String art, String alb, String y) {
 		this.title = t;
@@ -20,6 +19,7 @@ public class Song implements Comparable<Song>{
 	{
 		this(t,art,"","");
 	}
+
 
 	public String getYear() {
 		// TODO Auto-generated method stub
@@ -40,10 +40,17 @@ public class Song implements Comparable<Song>{
 		return this.album;
 		
 	}
+
+	public String lowerTitle() {
+		return this.title.toLowerCase();
+	}
+
+	public String lowerArtist() {
+		return this.artist.toLowerCase();
+	}
 	
 	public void setalbum(String a) {
 		this.album = a;
-		
 	}
 	
 	public void setYear(String y) {
@@ -53,6 +60,8 @@ public class Song implements Comparable<Song>{
 	public String toString() {
 		return this.title +" - "+this.artist;
 	}
+
+
 	@Override
 	public int compareTo(Song s) {
 		if(this.title.trim().toUpperCase().compareTo(s.getTitle().trim().toUpperCase()) == 0){
