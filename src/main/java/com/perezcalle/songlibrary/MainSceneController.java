@@ -178,6 +178,15 @@ public class MainSceneController {
 			alert.showAndWait();
 			return;
 		}
+		if (TitleAdd.getText().contains("|") || ArtistAdd.getText().contains("|") || albumAdd.getText().contains("|") || yearAdd.getText().contains("|")) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("ATTENTION");
+			alert.setHeaderText("Invalid Character");
+			alert.setContentText("'|' cannot be used.");
+			alert.showAndWait();
+			return;
+		}
+
 		Song tempSong = new Song(TitleAdd.getText().trim(), ArtistAdd.getText().trim(), albumAdd.getText().trim(), yearAdd.getText().trim());
 		add(tempSong);
 
@@ -245,6 +254,14 @@ public class MainSceneController {
 			alert.showAndWait();
 			return;
 		}
+		if (titleEdit.getText().contains("|") || artistEdit.getText().contains("|") || albumEdit.getText().contains("|") || yearEdit.getText().contains("|")) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("ATTENTION");
+			alert.setHeaderText("Invalid Character");
+			alert.setContentText("'|' cannot be used.");
+			alert.showAndWait();
+			return;
+		}
 
 		Song selectedSong = (Song) songList.getSelectionModel().getSelectedItem();
 		Song tempSong = new Song(titleEdit.getText().trim(), artistEdit.getText().trim(), albumEdit.getText().trim(), yearEdit.getText().trim());
@@ -295,6 +312,9 @@ public class MainSceneController {
 	private boolean validYear(String year) {
 		if (year.compareTo("") == 0) {
 			return true;
+		}
+		else if (year.compareTo("0") == 0) {
+			return false;
 		}
 		else if (year.contains("-")) {
 			return false;
